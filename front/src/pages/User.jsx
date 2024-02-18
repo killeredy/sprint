@@ -1,8 +1,16 @@
 import React, { useState, useEffect } from "react";
-import { useUsuarios } from "../providers/UsuarioDb";
+import { PostUsers } from "../api/PostUsers";
+import { GetUsersLocalList } from "../api/GetUsersLocalList";
+import { PostUsersLocal } from "../api/PostUsersLocal";
 
-export default function Users(props) {
-  const { usuarios } = useUsuarios;
+export default function Users() {
+  const [usuarios, setUsuarios] = useState();
+  const usuariosDb = GetUsersLocalList();
+
+  if (usuarios === undefined && usuariosDb != undefined) {
+    setUsuarios(usuariosDb);
+  }
+
   const handleAdd = (e) => {
     e.preventDefault();
     const newUse = [...usuarios];
@@ -39,36 +47,7 @@ export default function Users(props) {
 
   const handleSave = (e) => {
     e.preventDefault();
-
-    const url = import.meta.env.VITE_URL_API + "user";
-    const userSend = usuarios.map((elem) => {
-      return {
-        id: elem.id,
-        nome: elem.nome,
-        matricula: elem.matricula,
-      };
-    });
-
-    fetch(url, {
-      method: "POST",
-      body: JSON.stringify(userSend),
-      headers: { "Content-type": "application/json; charset=UTF-8" },
-    })
-      .then((response) => response.json())
-      .then((json) => {
-        let list = result.data.map((elem) => {
-          return {
-            edit: false,
-            btn: "Editar",
-            nome: elem.nome,
-            matricula: elem.matricula,
-            id: elem.id,
-          };
-        });
-
-        setUsuarios(list);
-      })
-      .catch((err) => console.log("Erro de solicitação", err));
+    PostUsersLocal(usuarios);
   };
 
   return (
@@ -85,50 +64,53 @@ export default function Users(props) {
             </tr>
           </thead>
           <tbody>
-            {usuarios.map((elem, index) => {
-              return (
-                <tr key={index}>
-                  <td>
-                    {!elem.edit ? (
-                      elem.nome
-                    ) : (
-                      <input
-                        type="text"
-                        value={elem.nome}
-                        onChange={(e) => handleEditUser(e, index, "nome")}
-                      />
-                    )}
-                  </td>
-                  <td>
-                    {!elem.edit ? (
-                      elem.matricula
-                    ) : (
-                      <input
-                        type="number"
-                        value={elem.matricula}
-                        onChange={(e) => handleEditUser(e, index, "matricula")}
-                      />
-                    )}
-                  </td>
-                  <td>
-                    <button
-                      className="btn btn-info"
-                      onClick={(e) => handleHabilitUser(e, index)}
-                    >
-                      {elem.btn}
-                    </button>
-                  </td>
-                  <td>
-                    <button
-                      className="btn btn-danger"
-                      onClick={(e) => handleRemove(e, elem.id)}
-                    >
-                      Remover
-                    </button>
-                  </td>
-                </tr>
-              );
-            })}
+            {usuarios &&
+              usuarios.map((elem, index) => {
+                return (
+                  <tr key={index}>
+                    <td>
+                      {!elem.edit ? (
+                        elem.nome
+                      ) : (
+                        <input
+                          type="text"
+                          value={elem.nome}
+                          onChange={(e) => handleEditUser(e, index, "nome")}
+                        />
+                      )}
+                    </td>
+                    <td>
+                      {!elem.edit ? (
+                        elem.matricula
+                      ) : (
+                        <input
+                          type="number"
+                          value={elem.matricula}
+                          onChange={(e) =>
+                            handleEditUser(e, index, "matricula")
+                          }
+                        />
+                      )}
+                    </td>
+                    <td>
+                      <button
+                        className="btn btn-info"
+                        onClick={(e) => handleHabilitUser(e, index)}
+                      >
+                        {elem.btn}
+                      </button>
+                    </td>
+                    <td>
+                      <button
+                        className="btn btn-danger"
+                        onClick={(e) => handleRemove(e, elem.id)}
+                      >
+                        Remover
+                      </button>
+                    </td>
+                  </tr>
+                );
+              })}
           </tbody>
         </table>
         <div>

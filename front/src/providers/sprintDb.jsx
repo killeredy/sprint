@@ -2,27 +2,27 @@ import React, { useState, useEffect } from "react";
 import { sprintDefault } from "../objects/Defaunds";
 export const SprintContext = React.createContext({});
 
-export const SprintProvider = (prop) => {
-  const [sprint, setSprint] = useState([]);
+// export const SprintProvider = (prop) => {
+//   const [sprints, setSprints] = useState("teste");
 
-  useEffect(() => {
-    if (localStorage.getItem("sprint") !== null) {
-      console.log("load");
-      const newSprint = JSON.parse(localStorage.getItem("sprint"));
-      setSprint(newSprint);
-    } else {
-      console.log("new");
-      const newSprint = [new sprintDefault()];
-      newSprint[0].id = 1;
-      setSprint(newSprint);
-    }
-  }, []);
+//   // useEffect(() => {
+//   //   if (localStorage.getItem("studeSprint") !== null) {
+//   //     const newSprint = JSON.parse(localStorage.getItem("studeSprint"));
+//   //     setSprints(newSprint);
+//   //   } else {
+//   //     const newSprint = [new sprintDefault()];
+//   //     newSprint[0].id = parseInt(1);
+//   //     setSprints(newSprint);
+//   //   }
+//   // }, []);
 
-  return (
-    <SprintContext.Provider value={{ sprint, setSprint }}>
-      {prop.children}
-    </SprintContext.Provider>
-  );
-};
+//   consolelog(sprints);
 
-export const useSprint = () => React.useContext(SprintContext);
+//   return (
+//     <SprintContext.Provider value={{ sprints, setSprints }}>
+//       {prop.children}
+//     </SprintContext.Provider>
+//   );
+// };
+
+// export const useSprint = () => React.useContext(SprintContext);

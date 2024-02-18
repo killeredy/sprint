@@ -1,11 +1,26 @@
 export class sprintDefault {
   id = null;
-  data_inicial = "";
-  data_final = "";
+  periodo = {
+    dataInicial: "",
+    dataFinal: "",
+  };
   tempo_diario = 7;
   chamados = [];
-  pessoa = [];
-  pausas = [];
+  usuarios = [];
+  pauses = [];
+  jornada = {
+    inicio: 8,
+    inicioAlmoco: 12,
+    finalAlmoco: 14,
+    final: 18,
+  };
+}
+
+export class usuarioDefault {
+  id = null;
+  nome = "";
+  pauses = [];
+  tempo = 0;
 }
 
 export class chamadosDefault {
@@ -17,12 +32,13 @@ export class chamadosDefault {
 export class tarefasDefault {
   id = null;
   id_pessoa = null;
-  tempo = null;
+  nome_pessoa = "";
+  tempo = 0;
 }
 
-export class pauseDefault {
+export class periodoDefault {
   id = null;
-  data_inicial = "";
-  data_final = "";
+  dataInicial = "";
+  dataFinal = "";
   desc = "";
 }

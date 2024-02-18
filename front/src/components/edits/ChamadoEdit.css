@@ -1,0 +1,10 @@
+
+
+.chamado-edit{
+    left: 100%;
+    transition: left 0.2s ease-in-out;
+}
+
+.chamado-edit.active{
+    left: 0;
+}

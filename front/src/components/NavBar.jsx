@@ -27,11 +27,6 @@ function NavBar() {
           >
             <ul className="navbar-nav gap-2">
               <li className="nav-item">
-                <Link to="/sprint" className="nav-link">
-                  Config Sprint
-                </Link>
-              </li>
-              <li className="nav-item">
                 <Link to="/user" className="nav-link">
                   Usuários
                 </Link>
