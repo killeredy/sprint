@@ -1,0 +1,74 @@
+import React, { useState } from "react";
+import Papa from "papaparse"; // Biblioteca para fazer o parse do CSV
+
+export default function _ChamadosListEdit() {
+  const [data, setData] = useState([]);
+
+  // Função para fazer o parse do arquivo CSV
+  const handleFileUpload = (e) => {
+    const file = e.target.files[0];
+    Papa.parse(file, {
+      header: true,
+      complete: (result) => {
+        setData(result.data);
+      },
+    });
+  };
+
+  // Função para deletar uma linha da tabela
+  const handleDelete = (index) => {
+    setData((prevData) => prevData.filter((_, i) => i !== index));
+  };
+
+  // Função para editar uma linha da tabela
+  const handleEdit = (index) => {
+    // Implemente a lógica de edição aqui
+    console.log("Editar linha:", data[index]);
+  };
+
+  const save = (index) => {
+    // Implemente a lógica de edição aqui
+    console.log("Editar linha:", data[index]);
+  };
+
+  return (
+    <div className="App">
+      <h3>Import Chamados</h3>
+      <input type="file" onChange={handleFileUpload} accept=".csv" />
+      <hr className="my-5" />
+      <table className="table">
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>Número</th>
+            <th>Descrição</th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody>
+          {data.map((row, index) => (
+            <tr key={index}>
+              <td>{row.id}</td>
+              <td>{row.numero}</td>
+              <td>{row.descricao}</td>
+              <td className="d-flex gap-2">
+                <button
+                  className="btn btn-primary"
+                  onClick={() => handleEdit(index)}
+                >
+                  Editar
+                </button>
+                <button
+                  className="btn btn-danger"
+                  onClick={() => handleDelete(index)}
+                >
+                  Apagar
+                </button>
+              </td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
+  );
+}

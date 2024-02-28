@@ -31,9 +31,10 @@ export default function ChamadosList({ chamados, setChamados, removeChamado }) {
                       <div className="col-6">
                         <p className="m-0 p-0">
                           <span className="me-1">Duração:</span>
-                          {chamado.tarefas
-                            .map((elem) => elem.tempo)
-                            .reduce((q, v) => q + v)}
+                          {chamado.tarefas.length > 0 &&
+                            chamado.tarefas
+                              .map((elem) => elem.tempo)
+                              .reduce((q, v) => q + v)}
                           Horas
                         </p>
                       </div>

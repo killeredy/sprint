@@ -1,10 +1,10 @@
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import App from "./App.jsx";
-import Home from "./pages/Home.jsx";
 import SprintConfig from "./pages/SprintConfig.jsx";
 import SprintList from "./pages/SprintList.jsx";
 import Users from "./pages/User.jsx";
 import SprintEdit from "./pages/SprintEdit.jsx";
+import ChamadosListEdit from "./pages/ChamadosListEdit.jsx";
 
 export const RoutsList = createBrowserRouter([
   {
@@ -30,6 +30,10 @@ export const RoutsList = createBrowserRouter([
       {
         path: "user",
         element: <Users />,
+      },
+      {
+        path: "chamados",
+        element: <ChamadosListEdit />,
       },
     ],
   },

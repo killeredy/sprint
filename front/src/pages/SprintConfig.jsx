@@ -1,19 +1,21 @@
-import Periodo from "../components/Periodo";
+import PeriodoPause from "../components/PeriodoPause";
 import {
+  pauseDefault,
   periodoDefault,
   sprintDefault,
   usuarioDefault,
 } from "../objects/Defaunds";
 import UsuariosSprint from "../components/UsuariosSprint";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import GetSprint from "../api/GetSprints";
 import PostSprint from "../api/PostSprint";
 import { useNavigate, useParams } from "react-router-dom";
 import BtnOutline from "../components/BtnOutline";
 import InputText from "../components/InputText";
-import { GetUsers } from "../api/GetUsers";
 import ValidadeDate from "../components/ValidadeDate";
 import { GetUsersLocalList } from "../api/GetUsersLocalList";
+import { SprintContext } from "../providers/sprintDb";
+import PeriodoSprint from "../components/PeriodoSprint";
 
 export default function SprintConfig() {
   const { id } = useParams();
@@ -88,11 +90,15 @@ export default function SprintConfig() {
     setSprint(newSprint);
   };
 
-  const handleSetUserSprint = (useId, newUse) => {
+  // const handleSetUserSprint = ({useId, newUse}) => {
+  const handleSetUserSprint = (userDb) => {
     const newSprint = { ...sprint };
-    const newUseList = newSprint.usuarios.filter((elem) => elem.id == useId)[0];
+    const newUseList = newSprint.usuarios.filter(
+      (elem) => elem.id == userDb.id
+    )[0];
     const index = newSprint.usuarios.indexOf(newUseList);
-    newSprint.usuarios[index] = newUse;
+    newSprint.usuarios[index] = userDb.user;
+    console.log(newSprint);
     setSprint(newSprint);
   };
 
@@ -101,7 +107,7 @@ export default function SprintConfig() {
   // }
 
   return (
-    <div>
+    <SprintContext.Provider value={[sprint, setSprint]}>
       <div className="row">
         {/* AREA CONFIG */}
         <div className="col-10 p-1">
@@ -113,12 +119,9 @@ export default function SprintConfig() {
               </label>
               <div id="content-periodo" className="d-flex gap-2">
                 {sprint && (
-                  <Periodo
+                  <PeriodoSprint
                     value={sprint.periodo}
-                    jornada={sprint.jornada}
                     setValue={(e) => handleSetPeriodo(e)}
-                    getDesc={false}
-                    type="date"
                   />
                 )}
                 <div>
@@ -162,8 +165,7 @@ export default function SprintConfig() {
               </div>
             </div>
 
-            {!sprint ||
-            (!sprint.periodo.dataInicial && !sprint.periodo.dataFinal) ? (
+            {!sprint || (!sprint.periodo.inicio && !sprint.periodo.final) ? (
               ""
             ) : (
               <>
@@ -201,17 +203,18 @@ export default function SprintConfig() {
           </div>
         </div>
       </div>
-    </div>
+    </SprintContext.Provider>
   );
 }
 
 const RenderConfigUser = ({
-  sprint,
-  usuarios,
   handleAddUser,
   handleSetUserSprint,
   handleRemoveUser,
 }) => {
+  const usuarios = GetUsersLocalList();
+  const [sprint, setSprint] = useContext(SprintContext);
+
   return (
     <div>
       <label htmlFor="" className="mb-2">
@@ -225,11 +228,12 @@ const RenderConfigUser = ({
                 <UsuariosSprint
                   usuarioDb={elem}
                   userSprint={
-                    sprint &&
-                    sprint.usuarios.filter((us) => us.id == elem.id)[0]
+                    sprint.usuarios.filter((user) => {
+                      return user.id == elem.id;
+                    })[0]
                   }
                   setUserSprint={(newUse) =>
-                    handleSetUserSprint(elem.id, newUse)
+                    handleSetUserSprint({ id: elem.id, user: newUse })
                   }
                   addUser={(use) => handleAddUser(use)}
                   removeUser={(id) => handleRemoveUser(id)}
@@ -243,17 +247,34 @@ const RenderConfigUser = ({
   );
 };
 
-const RenderPausesSprint = ({
-  sprint,
-  handleAddPause,
-  handleSetPause,
-  handleRemovePause,
-}) => {
-  const handlePauseSet = (periodo, index) => {
-    handleSetPause({
-      periodo: periodo,
-      index: index,
+// ------------------- PAUSAS ----------------------//
+
+const RenderPausesSprint = () => {
+  const [sprint, setSprint] = useContext(SprintContext);
+  const handleSetDate = (date, index, range) => {
+    const newUser = { ...sprint };
+    newUser.pauses[index][range] = date;
+    setSprint(newUser);
+  };
+
+  const handleAddPause = () => {
+    const newPause = new pauseDefault();
+    newPause.id = sprint.pauses.length;
+
+    const newSprint = { ...sprint };
+
+    newSprint.pauses.push(newPause);
+    setSprint(newSprint);
+  };
+
+  const handleRemovePause = (id) => {
+    console.log(id);
+    const newSprint = { ...sprint };
+    newSprint.pauses = sprint.pauses.filter((elem) => {
+      return elem.id != id;
     });
+
+    setSprint(newSprint);
   };
 
   return (
@@ -268,22 +289,18 @@ const RenderPausesSprint = ({
           onClick={(e) => handleAddPause(e)}
         />
       </div>
-      <div className="p-2 row row-cols-4 ">
+      <div className="p-2 row">
         {sprint && sprint.pauses.length > 0
-          ? sprint.pauses.map((elem, index) => {
+          ? sprint.pauses.map((data, index) => {
+              console.log(data);
               return (
-                <Periodo
-                  value={elem}
-                  setValue={(e) => {
-                    handlePauseSet(e, index);
-                  }}
-                  inline={false}
-                  getDesc={true}
-                  key={index}
-                  jornada={sprint.jornada}
-                  removePeriodo={(id) => {
-                    handleRemovePause(id);
-                  }}
+                <PeriodoPause
+                  valueInicio={data.dataInicial}
+                  valueFinal={data.dataFinal}
+                  setValueInicio={(e) => handleSetDate(e, index, "dataInicial")}
+                  setValueFinal={(e) => handleSetDate(e, index, "dataFinal")}
+                  removePeriodo={(id) => handleRemovePause(id)}
+                  id={data.id}
                 />
               );
             })

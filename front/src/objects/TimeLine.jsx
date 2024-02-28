@@ -28,8 +28,8 @@ export class TimeLine {
 
   getDiasFull = (periodo) => {
     let dias = [];
-    var inicial = this.getDateObjPeriodo("dataInicial");
-    var final = this.getDateObjPeriodo("dataFinal");
+    var inicial = this.getDateObjPeriodo("inicio");
+    var final = this.getDateObjPeriodo("final");
 
     while (inicial <= final) {
       var value = this.getHoras(inicial);
@@ -75,6 +75,7 @@ export class TimeLine {
       hora.value = value;
       hora.dia = date;
       hora.time = time;
+      hora.status = 3;
       horas.push(hora);
       var add = 1;
 
@@ -120,18 +121,18 @@ export class TimeLine {
 
   getDateObjPeriodo = (range) => {
     const dateStr = this.periodo[range];
-    let horas =
-      range == "dataInicial" ? this.jornada.inicio : this.jornada.final;
+    let horas = range == "inicio" ? this.jornada.inicio : this.jornada.final;
     horas = this.padStart(horas, 2);
     const date = dateStr + " " + horas + ":00";
-    return new Date(date);
+    const newDate = new Date(date);
+    return newDate;
   };
 
   getDateObjPause = (periodo, range) => {
     const dateStr = periodo[range];
-
     const date = dateStr.replace("T", " ");
-    return new Date(date);
+    const newDate = new Date(date);
+    return newDate;
   };
 
   filterPauseUser = (user, dias, tarefaHoras) => {
@@ -144,7 +145,6 @@ export class TimeLine {
         }
       }
     }
-
     return dias;
   };
 

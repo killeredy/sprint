@@ -1,4 +1,3 @@
-import Periodo from "../components/Periodo";
 import { chamadosDefault, sprintDefault } from "../objects/Defaunds";
 import React, { useEffect, useState } from "react";
 import GetSprint from "../api/GetSprints";
@@ -64,12 +63,7 @@ export default function SprintConfig() {
         style={{ height: "calc(100vh - 150px)", borderRadius: "10px" }}
       >
         <div className="col-8 border border-light position-relative p-5 ">
-          <Calendario
-          // usuarios={sprint && sprint.usuarios}
-          // chamados={sprint && sprint.chamados}
-          // periodo={sprint && sprint.periodo}
-          // pausa={sprint && sprint.pauses}
-          />
+          <Calendario />
         </div>
         <div className="col-4 border border border-light-subtle p-3 bg-light position-relative overflow-hidden shadow-sm">
           <div

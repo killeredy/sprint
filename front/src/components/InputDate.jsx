@@ -3,7 +3,6 @@ import InputMask from "react-input-mask";
 
 export default function InputDate({
   Label = "teste",
-  showHoras = false,
   name,
   width = 3,
   value,

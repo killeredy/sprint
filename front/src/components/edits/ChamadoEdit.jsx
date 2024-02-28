@@ -3,6 +3,7 @@ import { tarefasDefault } from "../../objects/Defaunds";
 import InputText from "../InputText";
 import "./ChamadoEdit.css";
 import TarefaEdit from "../tarefas/TarefaEdit";
+import SeletorChamados from "../SeletorChamados";
 
 export default function ChamadosEdit({ chamadoEdit, setChamadoEdit }) {
   const [chamado, setChamado] = useState(chamadoEdit);
@@ -68,18 +69,18 @@ export default function ChamadosEdit({ chamadoEdit, setChamadoEdit }) {
       </div>
       <hr />
       <div>
-        <div className="d-flex align-items-end">
-          <InputText
-            label="Numero"
-            type="number"
-            value={chamado.numero}
-            width={6}
-            setValue={(e) => handleNumeroEdit(e)}
-          />
-          <div className="mb-2 form-group">
-            <label htmlFor="">Duração</label>
-            <h6 className="form-control mt-1">{duracao}</h6>
+        <div>
+          <div className="d-flex align-items-end">
+            <SeletorChamados
+              select={chamado.numero}
+              setSelect={(e) => handleNumeroEdit(e)}
+            />
+            <div className="mb-2 form-group">
+              <label htmlFor="">Duração</label>
+              <h6 className="form-control mt-1">{duracao}</h6>
+            </div>
           </div>
+          <p>{chamado.desc}</p>
         </div>
         <div>
           <div className="d-flex justify-content-between align-items-center">

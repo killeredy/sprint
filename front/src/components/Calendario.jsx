@@ -5,6 +5,8 @@ import { useContext, useEffect, useState } from "react";
 
 export default function Calendario() {
   const { sprint } = useContext(SprintContext);
+  const [count, setCount] = useState(0);
+  // const [totalHoras, setTotalHoras] = useState(0);
 
   const diasSprint = new TimeLine();
   diasSprint.periodo = sprint.periodo;
@@ -12,10 +14,13 @@ export default function Calendario() {
   diasSprint.setPausas(sprint.pauses);
   diasSprint.setDiasSprint();
   const timeline = diasSprint.getDays();
+  const totalHoras = getTotaHorasSprint(timeline);
+  // setTotalHoras(h);
 
   return (
     <>
       <h3>Calendário</h3>
+      <hr />
       {sprint.usuarios &&
         timeline &&
         sprint.usuarios.map((user, index) => {
@@ -24,6 +29,7 @@ export default function Calendario() {
           var time = new TimeLine();
           let userTimeLine = time.filterPauseUser(user, dias);
           userTimeLine = time.filterUserHorasTrab(userTimeLine, tarefaHoras);
+          const hTrab = getTotaHorasSprint(userTimeLine);
 
           return (
             <div key={index}>
@@ -32,8 +38,13 @@ export default function Calendario() {
                 <div>
                   <div className="d-flex position-relative rounded">
                     {userTimeLine.map((elem, index) => {
-                      return HorasRender.render(elem, index);
+                      return <>{HorasRender.render(elem, index)}</>;
                     })}
+                    <div className="d-flex alig-items-center h-100 py-1 ms-3">
+                      <span className="text-center">
+                        {`${hTrab}/${totalHoras}`} Horas
+                      </span>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -42,6 +53,10 @@ export default function Calendario() {
         })}
     </>
   );
+}
+
+function getTotaHorasSprint(dias) {
+  return dias.filter((x) => x.status == 0).length;
 }
 
 function getTimeUser(user, chamados) {

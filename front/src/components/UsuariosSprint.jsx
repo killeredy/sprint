@@ -1,5 +1,5 @@
 import { useState } from "react";
-import Periodo from "./Periodo";
+import PeriodoPause from "./PeriodoPause";
 import { periodoDefault, usuarioDefault } from "../objects/Defaunds";
 import BtnOutline from "./BtnOutline";
 
@@ -31,12 +31,14 @@ export default function UsuariosSprint({
     const newPeriod = new periodoDefault();
     newPeriod.id = newUser.pauses.length + 1;
     newUser.pauses.push(newPeriod);
+    setSel(newUser);
     setUserSprint(newUser);
   };
 
-  const handleSetDate = (date, index) => {
+  const handleSetDate = (date, index, range) => {
     const newUser = { ...userSprint };
-    newUser.pauses[index] = date;
+    newUser.pauses[index][range] = date;
+    setSel(newUser);
     setUserSprint(newUser);
   };
 
@@ -79,14 +81,19 @@ export default function UsuariosSprint({
         userSprint &&
         userSprint.pauses.map((data, index) => {
           return (
-            <Periodo
-              value={data}
-              setValue={(e) => handleSetDate(e, index)}
-              key={index}
-              removePeriodo={(id) => {
-                handleRemovePause(id);
-              }}
-            />
+            <>
+              <div key={index}>
+                <PeriodoPause
+                  valueInicio={data.dataInicial}
+                  valueFinal={data.dataFinal}
+                  setValueInicio={(e) => handleSetDate(e, index, "dataInicial")}
+                  setValueFinal={(e) => handleSetDate(e, index, "dataFinal")}
+                  removePeriodo={(id) => {
+                    handleRemovePause(id);
+                  }}
+                />
+              </div>
+            </>
           );
         })}
     </div>

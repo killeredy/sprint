@@ -3,11 +3,9 @@ import { Link } from "react-router-dom";
 function NavBar() {
   return (
     <>
-      <nav className="navbar navbar-expand-lg navbar-light bg-light">
-        <div className="container-fluid justify-content-between">
-          <Link to="/" className="nav-link">
-            Sprint
-          </Link>
+      <nav className="navbar navbar-expand-lg navbar-light bg-dark ">
+        <div className="container-fluid justify-content-between container">
+          <h2 className="text-light">Sprints Manager</h2>
           <button
             className="navbar-toggler"
             type="button"
@@ -26,8 +24,16 @@ function NavBar() {
             style={{ maxWidth: "max-content" }}
           >
             <ul className="navbar-nav gap-2">
+              <Link to="/" className="nav-link text-white h4">
+                Sprints
+              </Link>
               <li className="nav-item">
-                <Link to="/user" className="nav-link">
+                <Link to="/chamados" className="nav-link text-white h4">
+                  Chamados
+                </Link>
+              </li>
+              <li className="nav-item">
+                <Link to="/user" className="nav-link text-white h4">
                   Usuários
                 </Link>
               </li>

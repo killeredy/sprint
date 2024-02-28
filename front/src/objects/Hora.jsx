@@ -70,8 +70,8 @@ export class Horas {
 export class HorasRender {
   static render = (horas, index) => {
     const style = {
-      width: "200px",
-      height: "100px",
+      width: horas.isFinalSemana ? "30px" : "200px",
+      height: "50px",
       visibility: horas.isFinalSemana ? "hidden" : "visible",
       borderColor: "black",
       borderStyle: "solid",
