@@ -108,12 +108,13 @@ export default function SprintConfig() {
 
   return (
     <SprintContext.Provider value={[sprint, setSprint]}>
-      <div className="row">
+      <div className="row container mx-auto py-5">
+        <h3>Configuração</h3>
         {/* AREA CONFIG */}
         <div className="col-10 p-1">
-          <div className="w-100 border rounded p-3">
+          <div className="w-100 border rounded p-3 bg-white">
             {/* CONFIG PERÍODO E JORNADA */}
-            <div id="periodo">
+            <div id="periodo border">
               <label htmlFor="" className="mb-2">
                 Configurar Período
               </label>
@@ -175,16 +176,20 @@ export default function SprintConfig() {
                   handleSetPause={(e) => handleSetPause(e)}
                   handleRemovePause={(e) => handleRemovePause(e)}
                 />
-                <RenderConfigUser
-                  sprint={sprint}
-                  usuarios={usuarios}
-                  handleAddUser={(e) => handleAddUser(e)}
-                  handleSetUserSprint={(e) => handleSetUserSprint(e)}
-                  handleRemoveUser={(e) => handleRemoveUser(e)}
-                />
               </>
             )}
           </div>
+          {!sprint || (!sprint.periodo.inicio && !sprint.periodo.final) ? (
+            ""
+          ) : (
+            <RenderConfigUser
+              sprint={sprint}
+              usuarios={usuarios}
+              handleAddUser={(e) => handleAddUser(e)}
+              handleSetUserSprint={(e) => handleSetUserSprint(e)}
+              handleRemoveUser={(e) => handleRemoveUser(e)}
+            />
+          )}
         </div>
 
         {/* AREA SAVE */}
@@ -192,7 +197,7 @@ export default function SprintConfig() {
           <div className="p-2 border border-1 shadow rounded">
             <div>
               <button
-                className="w-100 my-2 btn btn-primary"
+                className="w-100 my-2 btn btn-secondary"
                 onClick={() => {
                   handleSaveSprint();
                 }}
@@ -216,7 +221,7 @@ const RenderConfigUser = ({
   const [sprint, setSprint] = useContext(SprintContext);
 
   return (
-    <div>
+    <div className="border bg-white p-4 rounded mt-3">
       <label htmlFor="" className="mb-2">
         Usuarios
       </label>

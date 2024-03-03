@@ -1,0 +1,26 @@
+$primary: darkgray;
+$secondary: rgb(61, 111, 176);
+$success: green;
+$info: cyan;
+$danger: darkred;
+$light: rgb(243, 243, 243);
+$dark: #212529;
+$warning: orange;
+$pauseSprint: rgb(65, 54, 54);
+$pauseUser: rgb(57, 64, 72);
+
+$theme-colors: (
+    "primary": $primary,
+    "secondary": $secondary,
+    "success": $success,
+    "info": $info,
+    "warning": $warning,
+    "danger": $danger,
+    "light": $light,
+    "dark": $dark,
+
+    "pSprint" : $pauseSprint,
+    "pUser" : $pauseUser,
+    "trab" : green,
+    "free" : rgb(233, 233, 233),
+);

@@ -1,7 +1,7 @@
 export class HorasType {
   static typesColor = {
-    none: "ligth",
-    trabalho: "success",
+    none: "free",
+    trabalho: "trab",
     feriado: "warning",
     outros: "black",
   };
@@ -14,7 +14,7 @@ export class HorasType {
 export class Horas {
   dia;
   hora = 0;
-  color = "light";
+  color = "free";
   status = 0;
   time = 0;
   diaMes;
@@ -23,7 +23,7 @@ export class Horas {
   border;
   value;
   status = 0;
-  styles = ["light", "warning", "primary", "secondary"];
+  styles = ["free", "pSprint", "pUser", "trab", "trab"];
 
   setType = ($type) => {
     this.color = HorasType.typesColor[$type];

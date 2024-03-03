@@ -60,12 +60,12 @@ export default function SprintConfig() {
     <SprintContext.Provider value={{ sprint }}>
       <div
         className="w-100 d-flex bg-dark overflow-hidden text-white"
-        style={{ height: "calc(100vh - 150px)", borderRadius: "10px" }}
+        style={{ height: "calc(100vh - 60px)" }}
       >
-        <div className="col-8 border border-light position-relative p-5 ">
+        <div className="col-8 position-relative p-3">
           <Calendario />
         </div>
-        <div className="col-4 border border border-light-subtle p-3 bg-light position-relative overflow-hidden shadow-sm">
+        <div className="col-4 border border border-light-subtle p-3 bg-light position-relative overflow-scroll shadow-sm">
           <div
             className={`w-100 h-100 position-absolute top-0 p-3 bg-dark position-absolute chamado-edit ${
               chamado != undefined ? "active" : ""

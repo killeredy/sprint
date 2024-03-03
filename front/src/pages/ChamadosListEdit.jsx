@@ -71,19 +71,25 @@ export default function ChamadosListEdit() {
   };
 
   return (
-    <>
-      <h1>Chamados Config</h1>
+    <div className="container mx-auto mt-3">
+      <h3>Chamados Config</h3>
 
-      <h3>Import Chamados</h3>
-      <input type="file" onChange={handleFileUpload} accept=".csv" />
+      <div className="my-4">
+        <h5>Import Chamados</h5>
+        <input
+          type="file"
+          className="btn btn-primary"
+          onChange={handleFileUpload}
+          accept=".csv"
+        />
+      </div>
 
-      <form action="">
+      <form action="" className="bg-white p-4 rounded">
         <table className="table">
           <thead>
             <tr>
               <th>Numero</th>
               <th>Descrição</th>
-              <th></th>
               <th></th>
             </tr>
           </thead>
@@ -117,20 +123,20 @@ export default function ChamadosListEdit() {
                       )}
                     </td>
                     <td>
-                      <button
-                        className="btn btn-info"
-                        onClick={(e) => handleHabilitChamado(e, index)}
-                      >
-                        {elem.btn}
-                      </button>
-                    </td>
-                    <td>
-                      <button
-                        className="btn btn-danger"
-                        onClick={(e) => handleRemove(e, elem.id)}
-                      >
-                        Remover
-                      </button>
+                      <div className="d-flex gap-2 w-100 justify-content-end">
+                        <button
+                          className="btn btn-secondary"
+                          onClick={(e) => handleHabilitChamado(e, index)}
+                        >
+                          {elem.btn}
+                        </button>
+                        <button
+                          className="btn btn-danger"
+                          onClick={(e) => handleRemove(e, elem.id)}
+                        >
+                          Remover
+                        </button>
+                      </div>
                     </td>
                   </tr>
                 );
@@ -138,7 +144,7 @@ export default function ChamadosListEdit() {
           </tbody>
         </table>
         <div>
-          <button className="btn btn-info" onClick={(e) => handleAdd(e)}>
+          <button className="btn btn-secondary" onClick={(e) => handleAdd(e)}>
             Adicionar
           </button>
         </div>
@@ -147,12 +153,12 @@ export default function ChamadosListEdit() {
           <button className="btn btn-success" onClick={(e) => handleSave(e)}>
             Salvar
           </button>
-          <button className="btn btn-warning" onClick={(e) => handleCancel(e)}>
+          <button className="btn btn-danger" onClick={(e) => handleCancel(e)}>
             Cancelar
           </button>
         </div>
       </form>
-    </>
+    </div>
   );
 }
 

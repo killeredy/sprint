@@ -51,16 +51,15 @@ export default function Users() {
   };
 
   return (
-    <>
-      <h1>Users Config</h1>
+    <div className="container mx-auto mt-5">
+      <h3>Users Config</h3>
 
-      <form action="">
+      <form action="" className="p-3 bg-white p-3 rounded mt-4">
         <table className="table">
           <thead>
             <tr>
               <th>NOME</th>
-              <th></th>
-              <th></th>
+              <th> </th>
             </tr>
           </thead>
           <tbody>
@@ -93,20 +92,20 @@ export default function Users() {
                       )}
                     </td>
                     <td>
-                      <button
-                        className="btn btn-info"
-                        onClick={(e) => handleHabilitUser(e, index)}
-                      >
-                        {elem.btn}
-                      </button>
-                    </td>
-                    <td>
-                      <button
-                        className="btn btn-danger"
-                        onClick={(e) => handleRemove(e, elem.id)}
-                      >
-                        Remover
-                      </button>
+                      <div className="d-flex gap-3 w-100 justify-content-end">
+                        <button
+                          className="btn btn-secondary"
+                          onClick={(e) => handleHabilitUser(e, index)}
+                        >
+                          {elem.btn}
+                        </button>
+                        <button
+                          className="btn btn-danger"
+                          onClick={(e) => handleRemove(e, elem.id)}
+                        >
+                          Remover
+                        </button>
+                      </div>
                     </td>
                   </tr>
                 );
@@ -114,7 +113,7 @@ export default function Users() {
           </tbody>
         </table>
         <div>
-          <button className="btn btn-info" onClick={(e) => handleAdd(e)}>
+          <button className="btn btn-success" onClick={(e) => handleAdd(e)}>
             Adicionar
           </button>
         </div>
@@ -128,6 +127,6 @@ export default function Users() {
           </button>
         </div>
       </form>
-    </>
+    </div>
   );
 }
