@@ -8,18 +8,22 @@ export class TimeLine {
   jornada;
   periodo;
 
-  setPausas = ($pauses) => {
-    this.pauses = this.getPauses($pauses);
+  setPausas = (pauses) => {
+    if (pauses) {
+      this.pauses = this.getPauses(pauses);
+    }
   };
 
-  getPauses($pauses) {
-    let pauses = [];
-    for (let i = 0; i < $pauses.length; i++) {
-      var p = this.getDiasParcial($pauses[i]);
-      pauses = pauses.concat(p);
+  getPauses(pauses) {
+    let pausesList = [];
+    if (pauses) {
+      for (let i = 0; i < pauses.length; i++) {
+        var p = this.getDiasParcial(pauses[i]);
+        pausesList = pausesList.concat(p);
+      }
     }
 
-    return pauses;
+    return pausesList;
   }
 
   setDiasSprint = () => {

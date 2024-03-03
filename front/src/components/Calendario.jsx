@@ -21,36 +21,83 @@ export default function Calendario() {
     <>
       <h3>Calendário</h3>
       <hr />
-      {sprint.usuarios &&
-        timeline &&
-        sprint.usuarios.map((user, index) => {
-          const dias = JSON.parse(JSON.stringify(timeline));
-          const tarefaHoras = getTimeUser(user, sprint.chamados);
-          var time = new TimeLine();
-          let userTimeLine = time.filterPauseUser(user, dias);
-          userTimeLine = time.filterUserHorasTrab(userTimeLine, tarefaHoras);
-          const hTrab = getTotaHorasSprint(userTimeLine);
+      <div className="w-100 overflow-auto" style={{ maxHeight: "90%" }}>
+        {sprint.usuarios &&
+          timeline &&
+          sprint.usuarios.map((user, index) => {
+            const dias = JSON.parse(JSON.stringify(timeline));
+            const larg = 100 / dias.length;
+            const tarefaHoras = getTimeUser(user, sprint.chamados);
+            var time = new TimeLine();
+            let userTimeLine = time.filterPauseUser(user, dias);
+            userTimeLine = time.filterUserHorasTrab(userTimeLine, tarefaHoras);
+            const hTrab = getTotaHorasSprint(userTimeLine);
+            let count = 0;
 
-          return (
-            <div key={index}>
-              <div className="w-100 my-2">
-                <h5>{user.nome}</h5>
-                <div>
-                  <div className="d-flex position-relative rounded">
-                    {userTimeLine.map((elem, index) => {
-                      return <>{HorasRender.render(elem, index)}</>;
-                    })}
-                    <div className="d-flex alig-items-center h-100 py-1 ms-3">
-                      <span className="text-center">
-                        {`${hTrab}/${totalHoras}`} Horas
-                      </span>
+            return (
+              <div key={index}>
+                <div className="w-100 my-4">
+                  <h5
+                    className="bg-primary p-2 rounded"
+                    style={{ maxWidth: "max-content" }}
+                  >
+                    {user.nome}
+                  </h5>
+                  <div>
+                    <div className="d-flex position-relative rounded">
+                      {userTimeLine.map((elem, index) => {
+                        return (
+                          <>
+                            <div
+                              key={index}
+                              className="position-relative mb-4"
+                              style={{
+                                width: elem.isFinalSemana ? "1px" : `${larg}%`,
+                              }}
+                            >
+                              {/* SHOW DIA SEMANA E DATA */}
+                              {elem.value == "08:00 - 9:00 " &&
+                                !elem.isFinalSemana && (
+                                  <small
+                                    className="position-absolute text-center"
+                                    style={{ width: "50px" }}
+                                  >
+                                    {`${elem.diaSemana} ${elem.diaMes}`}
+                                  </small>
+                                )}
+                              {/* SHOW TIMELINE */}
+                              <div className="mt-4">
+                                {HorasRender.render(elem, index, larg)}
+                              </div>
+                              {/* SHOW NUMERO DE DIA */}
+                              <small
+                                className="position-absolute text-center"
+                                style={{ width: "45px" }}
+                              >
+                                {elem.value == "08:00 - 9:00 " &&
+                                  !elem.isFinalSemana &&
+                                  `${(count += 1)}`}
+                              </small>
+                            </div>
+                            <hr />
+                          </>
+                        );
+                      })}
+                      <div className="h-100 py-1 ms-3">
+                        <div>Restante</div>
+                        <div className="h-100">
+                          <span className="text-center">
+                            {`${hTrab}`} Horas
+                          </span>
+                        </div>
+                      </div>
                     </div>
                   </div>
                 </div>
               </div>
-            </div>
-          );
-        })}
+            );
+          })}
+      </div>
     </>
   );
 }
